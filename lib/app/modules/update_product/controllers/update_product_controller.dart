@@ -3,33 +3,42 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class UpdateProductController extends GetxController {
+class UpdateMahasiswaController extends GetxController {
   late TextEditingController cNama;
-  late TextEditingController cHarga;
+  late TextEditingController cAlamat;
+  late TextEditingController cJK;
+  late TextEditingController cNPM;
+  late TextEditingController cProgramStudi;
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<DocumentSnapshot<Object?>> getData(String id) async {
-    DocumentReference docRef = firestore.collection("product").doc(id);
+    DocumentReference docRef = firestore.collection("mahasiswa").doc(id);
 
     return docRef.get();
   }
 
-  void updateProduct(String nama, String harga, String id) async {
-    DocumentReference productById = firestore.collection("product").doc(id);
+  void updateMahasiswa(String nama, String alamat, String jk, String npm, String programStudi, String id) async {
+    DocumentReference mahasiswaById = firestore.collection("mahasiswa").doc(id);
 
     try {
-      await productById.update({
-        "name": nama,
-        "price": harga,
+      await mahasiswaById.update({
+        "nama": nama,
+        "alamat": alamat,
+        "jk": jk,
+        "npm": npm,
+        "program studi": programStudi,
       });
 
       Get.defaultDialog(
         title: "Berhasil",
-        middleText: "Berhasil Mengubah Data Product.",
+        middleText: "Berhasil Mengubah Data Mahasiswa.",
         onConfirm: () {
           cNama.clear();
-          cHarga.clear();
+          cAlamat.clear();
+          cJK.clear();
+          cNPM.clear();
+          cProgramStudi.clear();
           Get.back();
           Get.back();
         },
@@ -39,23 +48,28 @@ class UpdateProductController extends GetxController {
       print(e);
       Get.defaultDialog(
         title: "Terjadi Kesalahan",
-        middleText: "Gagal Menambahkan Product.",
+        middleText: "Gagal Mengubah Mahasiswa.",
       );
     }
-    ;
   }
 
   @override
   void onInit() {
     cNama = TextEditingController();
-    cHarga = TextEditingController();
+    cAlamat = TextEditingController();
+    cJK = TextEditingController();
+    cNPM = TextEditingController();
+    cProgramStudi = TextEditingController();
     super.onInit();
   }
 
   @override
   void onClosed() {
     cNama.dispose();
-    cHarga.dispose();
+    cAlamat.dispose();
+    cJK.dispose();
+    cNPM.dispose();
+    cProgramStudi.dispose();
     super.onClose();
   }
 }

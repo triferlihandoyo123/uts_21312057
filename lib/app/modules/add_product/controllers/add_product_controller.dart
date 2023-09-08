@@ -1,53 +1,67 @@
-import 'dart:convert';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project_get/app/modules/add_product/controllers/add_product_controller.dart';
 
-class AddProductController extends GetxController {
- late TextEditingController cNama;
- late TextEditingController cHarga;
- FirebaseFirestore firestore=FirebaseFirestore.instance;
 
- void addProduct(String nama, String harga)async{
-  CollectionReference products = firestore.collection("product");
-  try {
-    await products.add({
-      "name": nama,
-      "price":harga,
-    });
-    Get.defaultDialog(
-      title: "Berhasil",
-      middleText: "Berhasil menyimpan data",
-      onConfirm: (){
-        cNama.clear();
-        cHarga.clear();
-        Get.back();
-        Get.back();
-textConfirm:
-"OK";
-      }
-    );
-    
-  } catch (e) {
-    
+class AddMahasiswaController extends GetxController {
+  late TextEditingController cNama;
+  late TextEditingController cAlamat;
+  late TextEditingController cJK;
+  late TextEditingController cNPM;
+  late TextEditingController cProgramStudi;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  void addMahasiswa(String nama, String alamat, String jk, String npm, String programStudi) async {
+    CollectionReference mahasiswa = firestore.collection("mahasiswa");
+    try {
+      await mahasiswa.add({
+        "nama": nama,
+        "alamat": alamat,
+        "jk": jk,
+        "npm": npm,
+        "program_studi": programStudi,
+      });
+      Get.defaultDialog(
+        title: "Berhasil",
+        middleText: "Berhasil menyimpan data",
+        onConfirm: () {
+          cNama.clear();
+          cAlamat.clear();
+          cJK.clear();
+          cNPM.clear();
+          cProgramStudi.clear();
+          Get.back();
+          Get.back();
+        },
+        textConfirm: "OK",
+      );
+    } catch (e) {
+      print(e);
+      Get.defaultDialog(
+        title: "Terjadi Kesalahan",
+        middleText: "Gagal menyimpan data Mahasiswa.",
+      );
+    }
   }
- }
 
- @override
+  @override
   void onInit() {
-    // TODO: implement onInit
-    cNama=TextEditingController();
-    cHarga=TextEditingController();
+    cNama = TextEditingController();
+    cAlamat = TextEditingController();
+    cJK = TextEditingController();
+    cNPM = TextEditingController();
+    cProgramStudi = TextEditingController();
     super.onInit();
   }
+
   @override
   void onClose() {
     cNama.dispose();
-    cHarga.dispose();
-    super.onClose();
-
-    // TODO: implement onClose
+    cAlamat.dispose();
+    cJK.dispose();
+    cNPM.dispose();
+    cProgramStudi.dispose();
     super.onClose();
   }
-
 }

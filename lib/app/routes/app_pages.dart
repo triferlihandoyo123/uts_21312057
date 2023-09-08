@@ -52,12 +52,12 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ADD_PRODUCT,
-      page: () => const AddProductView(),
+      page: () => const AddMahasiswaView(),
       binding: AddProductBinding(),
     ),
     GetPage(
       name: _Paths.UPDATE_PRODUCT,
-      page: () => const UpdateProductView(),
+      page: () => const UpdateMahasiswaView(),
       binding: UpdateProductBinding(),
     ),
   ];

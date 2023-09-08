@@ -39,8 +39,8 @@ class HomeView extends GetView<HomeController> {
       ),
       barrierDismissible: false,
     );
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,25 +76,32 @@ class HomeView extends GetView<HomeController> {
 
       //2.Menampilkan data secara realtime
       body: StreamBuilder<QuerySnapshot<Object?>>(
-        stream: controller.streamData(),
+        stream: FirebaseFirestore.instance.collection('mahasiswa').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
-            // mengambil data
             var listAllDocs = snapshot.data!.docs;
             return ListView.builder(
               itemCount: listAllDocs.length,
-              itemBuilder: (context, index) => ListTile(
-                leading: CircleAvatar(
-                  child: Text('${index + 1}'),
-                  backgroundColor: Colors.white,
-                ),
-                title: Text(
-                    "${(listAllDocs[index].data() as Map<String, dynamic>)["name"]}"),
-                subtitle: Text(
-                    "${(listAllDocs[index].data() as Map<String, dynamic>)["price"]}"),
-                trailing:
-                    IconButton(onPressed: () => showOption(listAllDocs[index].id), icon: Icon(Icons.more_vert)),
-              ),
+              itemBuilder: (context, index) {
+                var data = listAllDocs[index].data() as Map<String, dynamic>;
+                return ListTile(
+                  leading: CircleAvatar(
+                    child: Text('${index + 1}'),
+                    backgroundColor: Colors.white,
+                  ),
+                  title: Text("Nama: ${data["nama"]}"),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("NPM: ${data["npm"]}"),
+                    ],
+                  ),
+                  trailing: IconButton(
+                    onPressed: () => showOption(listAllDocs[index].id),
+                    icon: Icon(Icons.more_vert),
+                  ),
+                );
+              },
             );
           }
           return Center(
@@ -102,8 +109,9 @@ class HomeView extends GetView<HomeController> {
           );
         },
       ),
+
       floatingActionButton: FloatingActionButton(
-        onPressed: ()=>Get.toNamed(Routes.ADD_PRODUCT),
+        onPressed: () => Get.toNamed(Routes.ADD_PRODUCT),
         child: Icon(Icons.add),
         backgroundColor: Colors.green, // Ikon "Tambah"
       ),

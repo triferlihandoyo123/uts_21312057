@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:project_get/app/modules/add_product/controllers/add_product_controller.dart';
 
-import '../controllers/add_product_controller.dart';
 
-class AddProductView extends GetView<AddProductController> {
-  const AddProductView({Key? key}) : super(key: key);
+class AddMahasiswaView extends GetView<AddMahasiswaController> {
+  const AddMahasiswaView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AddProduct'),
+        title: const Text('Tambah Mahasiswa'),
         centerTitle: true,
       ),
       body: Padding(
@@ -22,34 +21,60 @@ class AddProductView extends GetView<AddProductController> {
               autocorrect: false,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                labelText: "Nama Product"
+                labelText: "Nama Mahasiswa",
               ),
             ),
             SizedBox(
               height: 10,
             ),
             TextField(
-               controller: controller.cHarga,
+              controller: controller.cAlamat, // Sesuaikan dengan field yang benar
               autocorrect: false,
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                labelText: "Harga Product"),
+                labelText: "Alamat Mahasiswa", // Sesuaikan dengan field alamat
+              ),
+            ),
+            TextField(
+              controller: controller.cJK, // Sesuaikan dengan field yang benar
+              autocorrect: false,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                labelText: "Jenis Kelamin Mahasiswa", // Sesuaikan dengan field jk
+              ),
+            ),
+            TextField(
+              controller: controller.cNPM, // Sesuaikan dengan field yang benar
+              autocorrect: false,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                labelText: "NPM Mahasiswa", // Sesuaikan dengan field npm
+              ),
+            ),
+            TextField(
+              controller: controller.cProgramStudi, // Sesuaikan dengan field yang benar
+              autocorrect: false,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                labelText: "Program Studi Mahasiswa", // Sesuaikan dengan field program studi
+              ),
             ),
             SizedBox(
               height: 30,
             ),
             ElevatedButton(
-              onPressed:()=>controller.addProduct(
+              onPressed: () => controller.addMahasiswa(
                 controller.cNama.text,
-                controller.cHarga.text,
+                controller.cAlamat.text,
+                controller.cJK.text,
+                controller.cNPM.text,
+                controller.cProgramStudi.text,
               ),
-            child:Text("Simpan"),
-             )
+              child: Text("Simpan"),
+            ),
           ],
         ),
-        ),
-        
+      ),
     );
   }
 }
